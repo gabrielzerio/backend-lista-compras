@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+  //"mongodb://gabriel:senha%40123@localhost:27017/compras?authSource=admin&directConnection=true"
+}
+
+model Usuario {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email   String   @unique
+  nome    String?  
+  senha   String
+  itens   Item[]   // Relacionamento um-para-muitos com Item
+}
+
+model Item {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id_usuario String   @db.ObjectId
+  usuario    Usuario  @relation(fields: [id_usuario], references: [id])
+  produto    String
+  qtd        Int
+  data       DateTime  // Usando DateTime ao invés de Timestamp
+  lista      String    @db.ObjectId // Assumindo que 'lista' é uma referência a outra coleção
+}
+
+model Lista {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  data        DateTime
+  status      String
+  titulo      String
+}
