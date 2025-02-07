@@ -13,6 +13,6 @@ COPY . .
 
 # Expõe a porta da API
 EXPOSE 3000
-
+RUN npx prisma generate
 # Comando para rodar a API
 CMD ["npm", "start"]

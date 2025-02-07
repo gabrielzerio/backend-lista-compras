@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: container-api-shoplist
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - JWT_SECRET="2164c0b2410b5078af5da9519808c0323cc6233934490984fb4990b6308b56e1"
+      - DATABASE_URL="mongodb+srv://gabrielzerio:JJyijuRxX6UbpRHk@cluster0.wf6r8.mongodb.net/lista_de_comprass?retryWrites=true&w=majority&appName=Cluster0"
+    networks:
+      - rede-containers
+
+networks:
+  rede-containers:
