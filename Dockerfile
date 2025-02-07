@@ -10,7 +10,8 @@ RUN npm install
 
 # Copia o restante dos arquivos
 COPY . .
-
+ENV NODE_ENV=production
+ENV DATABASE_URL=mongodb://usuario:senha@host:porta/banco_de_dados
 # Expõe a porta da API
 EXPOSE 3000
 RUN npx prisma generate
