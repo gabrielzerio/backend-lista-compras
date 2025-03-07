@@ -30,6 +30,7 @@ model Item {
   qtd        Int
   data       DateTime  // Usando DateTime ao invés de Timestamp
   lista      String    @db.ObjectId // Assumindo que 'lista' é uma referência a outra coleção
+  checked    Boolean
 }
 
 model Lista {

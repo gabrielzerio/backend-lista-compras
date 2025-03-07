@@ -12,4 +12,4 @@ app.use(cors());
 app.use('/', rotasPublicas);
 app.use('/', auth, rotasPrivadas);
 
-app.listen(3000, () => console.log("Servidor Rodando 🚀"));
+app.listen(3000, '192.168.0.170', () => console.log("Servidor Rodando 🚀"));

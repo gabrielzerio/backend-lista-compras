@@ -7,7 +7,6 @@ const router = express.Router();
 router.get("/lista-pessoal/:listaId", async (req, res) => {
   const { listaId } = req.params; // Obtém o ID da lista dos parâmetros da URL
   const { id_usuario } = req; // Presumindo que req.id_usuario está definido por um middleware
-
   try {
     const produtos = await prisma.item.findMany({
       where: {
@@ -57,11 +56,12 @@ router.post("/novoItem", async (req, res) => {
   try {
     const produtoNovo = await prisma.item.create({
       data: {
-        id_usuario: req.body.solicitante,
+        id_usuario: req.id_usuario,
         produto: req.body.nome,
         qtd: req.body.qtd,
         data: new Date(),
         lista: req.body.lista,
+        checked: false
       },
     });
     res.status(200).json(produtoNovo);
@@ -79,5 +79,22 @@ router.get("/listas", async(req,res) => {
     res.status(500).json({message:error});
   }
 })
+
+router.patch('/item/status/:id', async (req, res) => {
+  const { id } = req.params;  // Obtém o id do item da URL
+  const { status } = req.body;  // Obtém o novo status enviado no body
+  try {
+    // Atualiza o status do item no banco de dados
+    const atualiza = await prisma.item.update({
+      where: { id: id },  // Filtra pelo ID
+      data: { checked: status }   // Atualiza o status (campo 'checked')
+    });
+    return res.json(atualiza);  // Retorna o item atualizado
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message:error });
+  }
+});
+
 
 export default router;
